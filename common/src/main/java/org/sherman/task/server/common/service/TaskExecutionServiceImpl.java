@@ -37,7 +37,7 @@ public class TaskExecutionServiceImpl implements TaskExecutionService {
         tasksToHandlers = taskHandlerConfiguration.getHandlers().stream()
                 .collect(toImmutableMap(TaskHandler::getType, identity()));
 
-        log.info("Handlers: {}", tasksToHandlers);
+        log.info("Handlers found: {}", tasksToHandlers);
     }
 
     @Override
