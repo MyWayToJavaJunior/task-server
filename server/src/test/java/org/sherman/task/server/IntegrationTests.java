@@ -39,6 +39,19 @@ public class IntegrationTests extends AbstractTestNGSpringContextTests {
         assertEquals(response.getResponseBody(), "{\"error\":{\"code\":\"EXECUTION_FAILED\",\"message\":\"Can't find handler for type NOT_IMPLEMENTED\"}}");
     }
 
+    @Test
+    public void getPi() throws ExecutionException, InterruptedException {
+        String json = "{\"type\": 3, \"created\": 42}";
+
+        Response response = httpClient.preparePost("http://localhost:8080/api/tasks/")
+                .setBody(json)
+                .addHeader("Content-Type", APPLICATION_JSON_VALUE)
+                .execute()
+                .get();
+
+        assertEquals(response.getResponseBody(), "{\"result\":3.141592653589793}");
+    }
+
     @BeforeTest
     private void beforeTest() throws InterruptedException {
         httpClient = new DefaultAsyncHttpClient();
