@@ -1,7 +1,10 @@
 package org.sherman.task.server.controller;
 
 import org.sherman.task.server.common.domain.Task;
+import org.sherman.task.server.common.domain.TaskResult;
 import org.sherman.task.server.common.service.TaskExecutionService;
+import org.sherman.task.server.domain.Error;
+import org.sherman.task.server.domain.ErrorCode;
 import org.sherman.task.server.domain.ReturnValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,13 +32,16 @@ public class TaskControllerImpl implements TaskController {
     @Override
     @PostMapping(value = "/api/tasks/", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Callable<ReturnValue<Boolean>> execute(@RequestBody Task task) {
+    public Callable<ReturnValue<?>> execute(@RequestBody Task task) {
         log.info("{}", task);
 
         return () -> {
-            log.info("Async");
-            Thread.sleep(10000);
-            return new ReturnValue<>(true);
+            TaskResult<?> taskResult = executionService.execute(task);
+            if (taskResult.hasError()) {
+                return new ReturnValue<>(new Error(ErrorCode.EXECUTION_FAILED, taskResult.getError().getError()));
+            } else {
+                return new ReturnValue<>(taskResult.getResult());
+            }
         };
     }
 }

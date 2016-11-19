@@ -8,8 +8,8 @@ import org.sherman.task.server.common.domain.TaskType;
  * @author Denis Gabaydulin
  * @since 19.11.16
  */
-public interface TaskHandler {
-    void handle(@NotNull Task task);
+public interface TaskHandler<T> {
+    T handle(@NotNull Task task);
 
     @NotNull
     TaskType getType();

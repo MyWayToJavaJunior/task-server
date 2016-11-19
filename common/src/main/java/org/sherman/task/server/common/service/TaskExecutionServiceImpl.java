@@ -3,18 +3,18 @@ package org.sherman.task.server.common.service;
 import org.jetbrains.annotations.NotNull;
 import org.sherman.task.server.common.configuration.TaskHandlerConfiguration;
 import org.sherman.task.server.common.domain.Task;
+import org.sherman.task.server.common.domain.TaskError;
+import org.sherman.task.server.common.domain.TaskResult;
 import org.sherman.task.server.common.domain.TaskType;
 import org.sherman.task.server.common.handler.TaskHandler;
-import org.sherman.task.server.common.util.GuavaCollectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.Optional;
 
 import static java.util.function.Function.identity;
 import static org.sherman.task.server.common.util.GuavaCollectors.toImmutableMap;
@@ -30,7 +30,7 @@ public class TaskExecutionServiceImpl implements TaskExecutionService {
     @Autowired
     private TaskHandlerConfiguration taskHandlerConfiguration;
 
-    private Map<TaskType, TaskHandler> tasksToHandlers;
+    private Map<TaskType, TaskHandler<?>> tasksToHandlers;
 
     @PostConstruct
     public void init() {
@@ -41,6 +41,14 @@ public class TaskExecutionServiceImpl implements TaskExecutionService {
     }
 
     @Override
-    public void execute(@NotNull Task task) {
+    public TaskResult<?> execute(@NotNull Task task) {
+        try {
+            return Optional.ofNullable(tasksToHandlers.get(task.getType()))
+                    .map(handler -> new TaskResult<>(handler.handle(task)))
+                    .orElseThrow(() -> new IllegalArgumentException("Can't find handler for type " + task.getType()));
+        } catch (Exception e) {
+            log.error("Can't execute task", e);
+            return new TaskResult<>(new TaskError(e.getMessage()));
+        }
     }
 }

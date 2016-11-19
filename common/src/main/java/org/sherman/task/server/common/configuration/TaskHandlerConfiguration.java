@@ -15,9 +15,9 @@ import java.util.List;
 public class TaskHandlerConfiguration {
 
     @Autowired
-    private List<TaskHandler> handlers;
+    private List<TaskHandler<?>> handlers;
 
-    public List<TaskHandler> getHandlers() {
+    public List<TaskHandler<?>> getHandlers() {
         return handlers;
     }
 }

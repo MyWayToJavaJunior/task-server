@@ -6,4 +6,5 @@ package org.sherman.task.server.domain;
  */
 public enum ErrorCode {
     INVALID_REQUEST,
+    EXECUTION_FAILED
 }

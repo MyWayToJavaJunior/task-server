@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
  * @since 19.11.16
  */
 @Component
-public class PiHandler implements TaskHandler {
+public class PiHandler implements TaskHandler<Double> {
     @Override
-    public void handle(@NotNull Task task) {
-        // FIXME: calculate
+    public Double handle(@NotNull Task task) {
+        return Math.PI;
     }
 
     @NotNull

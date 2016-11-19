@@ -10,5 +10,5 @@ import java.util.concurrent.Callable;
  * @since 19.11.16
  */
 public interface TaskController {
-    Callable<ReturnValue<Boolean>> execute(Task task);
+    Callable<ReturnValue<?>> execute(Task task);
 }
