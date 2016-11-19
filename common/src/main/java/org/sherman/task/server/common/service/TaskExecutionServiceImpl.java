@@ -28,9 +28,6 @@ public class TaskExecutionServiceImpl implements TaskExecutionService {
     private static final Logger log = LoggerFactory.getLogger(TaskExecutionServiceImpl.class);
 
     @Autowired
-    private List<TaskHandler> handlers;
-
-    @Autowired
     private TaskHandlerConfiguration taskHandlerConfiguration;
 
     private Map<TaskType, TaskHandler> tasksToHandlers;
