@@ -21,9 +21,8 @@ Design and implement a task-server. It must provide the following REST API.
 ## Implementation details
 
 I chose a simple implementation based on the Spring Framework [async request support](https://spring.io/blog/2012/05/10/spring-mvc-3-2-preview-making-a-controller-method-asynchronous/).
-When a new HTTP-request  is submitted, a jetty request thread is freed to serve others API requests.
-The controller method actually returns a callable which is executed in a separate thread pool.
-When the execution of the method is completed it restores the request context and flushes a result to a client.
+When a new HTTP-request is submitted, the controller method returns a callable which is executed in a separate thread pool, thus, a jetty request thread is freed to serve others API requests.
+When the execution of the method call() is completed it restores the request context and flushes a result to a client.
 So, from the server point of view the execution is asynchronous, but from a client side is synchronous.
 
 But, can we make better? Yes, of course!
