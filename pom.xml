@@ -169,6 +169,7 @@
 
     <build>
         <plugins>
+            <!-- FIXME: Spring boot maven plugin doesn't correctly build multi maven project (classes from another modules are not reachable)? -->
             <!-- <plugin>
                  <groupId>org.springframework.boot</groupId>
                  <artifactId>spring-boot-maven-plugin</artifactId>
