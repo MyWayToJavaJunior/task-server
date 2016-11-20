@@ -7,9 +7,9 @@ This is a test task.
 Design and implement a task-server. It must provide the following REST API.
 
 * Method to execute one of the three task types on n-workers:
-** Task which always fail execution.
-** Task which waits for 3 seconds and return a value.
-** task which immediately returns a PI value.
+ * Task which always fail execution.
+ * Task which waits for 3 seconds and return a value.
+ * task which immediately returns a PI value.
 
 ## Requirements
 
